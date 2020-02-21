@@ -1,12 +1,15 @@
 import express from "express";
 import bugService from "../services/BugService";
+import noteService from "../services/NoteService";
 
 export default class BugsController {
+
   constructor() {
     this.router = express
       .Router()
       .get("", this.getAll)
       .get("/:id", this.getById)
+      .get("/:id/notes", this.getNotesByBugId)
       .post("", this.create)
       .put("/:id", this.edit)
       .delete("/:id", this.delete)
@@ -24,6 +27,15 @@ export default class BugsController {
   async getById(req, res, next) {
     try {
       let data = await bugService.getById(req.params.id);
+      return res.send(data);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getNotesByBugId(req, res, next) {
+    try {
+      let data = await noteService.getNotesByBugId(req.params.id);
       return res.send(data);
     } catch (error) {
       next(error);
@@ -50,7 +62,7 @@ export default class BugsController {
 
   async delete(req, res, next) {
     try {
-      let data = await bugService.getAll(req.params.id);
+      let data = await bugService.delete(req.params.id);
       return res.send(data);
     } catch (error) {
       next(error);
