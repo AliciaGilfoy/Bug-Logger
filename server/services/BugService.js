@@ -23,11 +23,12 @@ class BugService {
     }
   }
   async delete(id) {
-    let bug = await _repository.find(id)
+    let bug = await _repository.findById(id)
     if (!bug.closed) {
       bug.closed = true
-      bug.closedDate = date.getDate()
-    } else {
+      bug.closedDate = date
+      return bug.save()
+    } if (bug.closed) {
       return ("This bug is closed, fix the next bug please!")
     }
 

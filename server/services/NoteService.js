@@ -11,7 +11,7 @@ class NoteService {
     return await _repository.findById(id);
   }
   async getNotesByBugId(id) {
-    return await _repository.find({ "bugId": id })
+    return await _repository.find({ "bug": id })
   }
   async create(rawData) {
     return await _repository.create(rawData);
