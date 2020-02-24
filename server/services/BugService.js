@@ -17,7 +17,7 @@ class BugService {
   async edit(id, update) {
     let bug = await _repository.findById(id)
     if (bug.closed) {
-      return ("This bug is closed you can not edit it!")
+      throw new Error("This bug is closed you can not edit it!")
     } else {
       return await _repository.findByIdAndUpdate(id, update, { new: true })
     }
@@ -29,7 +29,7 @@ class BugService {
       bug.closedDate = date
       return bug.save()
     } if (bug.closed) {
-      return ("This bug is closed, fix the next bug please!")
+      throw new Error("This bug is closed, fix the next bug please!")
     }
 
   }
